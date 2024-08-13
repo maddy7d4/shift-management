@@ -1,0 +1,36 @@
+.no-shifts{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.no-shifts p{
+    font-size: larger;
+}
+
+.shift-name {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 7px;
+}
+
+.shift-timing {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.shift-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.shift-card{
+    background-color: whitesmoke;
+    margin: 50px;
+    padding: 30px 0px 30px 30px;
+    border-radius: 20px;
+}
