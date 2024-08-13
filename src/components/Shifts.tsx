@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
-import add_shift from "../assets/images/add_shift.svg"
+
 import "../assets/styles/shifts.css"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormLabel,Grid,IconButton,Menu,MenuItem,Stack, Switch, TextField } from "@mui/material"
 import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import dayjs, { Dayjs } from "dayjs"
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
+import AddIcon from '@mui/icons-material/Add';
 
 
 interface shift {
@@ -47,9 +48,8 @@ export const Shifts = () => {
             endTime : endTime ? dayjs(endTime).format("hh:mm A") : null,
             isActive
         }
-
+        if(newShift.shiftName && newShift.startTime){
         setShifts((prevState) => [...prevState, newShift])
-
 
         setShiftName("")
         setShiftDesc("")
@@ -57,7 +57,9 @@ export const Shifts = () => {
         setEndTime(null)
         setIsActive(true)
 
-        closeModal()
+
+            closeModal()
+        }
     }
 
     const handleClose = () => {
@@ -65,14 +67,22 @@ export const Shifts = () => {
     }
 
     return(
-        <div>
+        <div>   
             {
                         shifts.length ? 
+
                         
-                            shifts.map((shift,i) => (
+                        shifts.length == 1 ? 
+                        shifts.map((shift,i) => (
+                            <div>
+                                
+                                <div className="addshift-btn">
+                                        <Button variant="contained" onClick={handleClickAdd}>Add Shift + </Button>
+                                </div>
+
                                  <div className="shift-card">
                             <Grid  container key={i}  spacing={2}>
-
+                                <div className="active-inactive"></div>
                                 <Grid item lg={3}>
                                     <div className="shift-name">
                                         <h3>{shift.shiftName}</h3>
@@ -111,12 +121,61 @@ export const Shifts = () => {
 
                                 </Grid>
                             </div>
+                            </div>
+                            
+                            ))
+                            :
+                            shifts.map((shift,i) => (
+                        <div className="shift-card-two" >
+                            <Grid  container key={i}  spacing={2} >
+                                <div className="active-inactive"></div>
+                                <Grid item lg={3}>
+                                    <div className="shift-name">
+                                        <h3>{shift.shiftName}</h3>
+                                    </div>
+                                </Grid>
+
+                                <Grid item lg={7}>
+                                    <div className="shift-timing">
+                                        <div>
+                                            Start Time
+                                            <p>{shift.startTime}</p>
+                                        </div>
+                                        <div>
+                                            End Time
+                                            <p>{shift.endTime}</p>
+                                        </div>
+                                    </div>
+                                </Grid>
+
+                                <Grid item lg={2} >
+                                <div className="shift-actions">
+                                    <Button variant="contained" size="small" onClick={handleClickAdd}>Edit</Button>
+                                    <IconButton>
+                                        <MoreVertIcon />
+                                    </IconButton>
+                                    <Menu
+                                        anchorEl={anchorEl}
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleClose}
+                                    >
+                                        <MenuItem >Activate</MenuItem>
+                                        <MenuItem >Delete</MenuItem>
+                                    </Menu>
+                                </div>
+                                </Grid>
+
+                                </Grid>
+                            </div>
+                            
                             ))
                            
                         :
                         <div className="no-shifts-wrap">
-                            <div className="no-shifts">
-                                <img src={add_shift} alt="no shifts" onClick={handleClickAdd} />
+                            <div className="no-shifts" onClick={handleClickAdd}>
+                                <AddIcon fontSize="large" />
+                                <h4>Add Shift</h4>  
+                                <br />
                                 <p>Looks like you didn't add any shifts yet!</p>
                             </div>
                         </div>
@@ -158,3 +217,5 @@ export const Shifts = () => {
     )
 
 }
+
+

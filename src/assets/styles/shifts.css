@@ -1,3 +1,7 @@
+html{
+    background-color: beige;
+}
+
 .no-shifts{
     display: flex;
     justify-content: center;
@@ -32,5 +36,18 @@
     background-color: whitesmoke;
     margin: 50px;
     padding: 30px 0px 30px 30px;
-    border-radius: 20px;
+    border-radius: 20px
 }
+.addshift-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 50px; 
+}
+
+.shift-card-two {
+    background-color: whitesmoke;
+    margin: 10px 50px 50px 50px;
+    padding: 30px 0px 30px 30px;
+    border-radius: 20px
+}
+
