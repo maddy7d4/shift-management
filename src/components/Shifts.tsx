@@ -4,7 +4,7 @@ import "../assets/styles/shifts.css"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormLabel,Grid,IconButton,Menu,MenuItem,Stack, Switch, TextField } from "@mui/material"
 import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers"
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import dayjs from "dayjs"
+import dayjs, { Dayjs } from "dayjs"
 import { MoreVert as MoreVertIcon } from '@mui/icons-material';
 
 
@@ -22,8 +22,8 @@ export const Shifts = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [shiftName, setShiftName] = useState("")
     const [shiftDesc, setShiftDesc] = useState("")
-    const [startTime, setStartTime] = useState<any | null>(null)
-    const [endTime, setEndTime] = useState<any | null>(null)    
+    const [startTime, setStartTime] = useState<Dayjs | null>(null)
+    const [endTime, setEndTime] = useState<Dayjs | null>(null)    
     const [isActive, setIsActive] = useState(true)
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     
@@ -67,32 +67,34 @@ export const Shifts = () => {
     return(
         <div>
             {
-                        !shifts.length ? 
-                            <div className="shift-card">
-                            <Grid  container  spacing={2}>
+                        shifts.length ? 
+                        
+                            shifts.map((shift,i) => (
+                                 <div className="shift-card">
+                            <Grid  container key={i}  spacing={2}>
 
                                 <Grid item lg={3}>
                                     <div className="shift-name">
-                                        <h3>Shift Name</h3>
+                                        <h3>{shift.shiftName}</h3>
                                     </div>
                                 </Grid>
 
-                                <Grid item lg={6}>
+                                <Grid item lg={7}>
                                     <div className="shift-timing">
                                         <div>
                                             Start Time
-                                            <p>06:00 AM</p>
+                                            <p>{shift.startTime}</p>
                                         </div>
                                         <div>
                                             End Time
-                                            <p>10:00 AM</p>
+                                            <p>{shift.endTime}</p>
                                         </div>
                                     </div>
                                 </Grid>
 
                                 <Grid item lg={2} >
                                 <div className="shift-actions">
-                                    <Button variant="contained">Edit</Button>
+                                    <Button variant="contained" size="small" onClick={handleClickAdd}>Edit</Button>
                                     <IconButton>
                                         <MoreVertIcon />
                                     </IconButton>
@@ -109,6 +111,8 @@ export const Shifts = () => {
 
                                 </Grid>
                             </div>
+                            ))
+                           
                         :
                         <div className="no-shifts-wrap">
                             <div className="no-shifts">
@@ -122,14 +126,14 @@ export const Shifts = () => {
                 <br />
                 <DialogContent>
                     <Stack>
-                        <TextField variant="outlined" label="Shift Name" value={shiftName} onChange={(e) => setShiftName(e.target.value)}></TextField>
+                        <TextField variant="outlined" required label="Shift Name" value={shiftName} onChange={(e) => setShiftName(e.target.value)}></TextField>
                         <br />
                         <TextField variant="outlined" label="Shift Description" value={shiftDesc} onChange={(e) => setShiftDesc(e.target.value)}></TextField>
                         <br />
                         <FormLabel><b>Shift Timing</b></FormLabel>
                         <br />
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <TimePicker label="Start Time" value={startTime} onChange={(val) => setStartTime(val)} />
+                        <LocalizationProvider dateAdapter={AdapterDayjs} >
+                            <TimePicker label="Start Time" value={startTime} onChange={(val) => setStartTime(val)}  />
                             <br />
                             <TimePicker label="End Time" value={endTime} onChange={(val) => setEndTime(val)} />
                         </LocalizationProvider>
